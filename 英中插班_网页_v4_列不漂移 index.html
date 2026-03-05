@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>26/27香港英中插班</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --border: rgba(255,255,255,.14);
+      --accent: #7dd3fc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial;
+      background: radial-gradient(1200px 800px at 20% 0%, rgba(125,211,252,.18), transparent 55%),
+                  radial-gradient(1000px 700px at 80% 10%, rgba(167,139,250,.18), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 16px 56px;
+    }
+    header {
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    h1 { font-size: 22px; margin: 0; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .search { position: relative; min-width: min(520px, 88vw); }
+    .search input {
+      width: 100%;
+      padding: 11px 12px 11px 36px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      outline: none;
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-size: 14px;
+    }
+    .search .icon {
+      position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%); opacity: .8; font-size: 14px;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted); font-size: 13px; user-select: none;
+    }
+    .table-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+    }
+    .scroll { overflow: auto; -webkit-overflow-scrolling: touch; }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed; /* key for alignment */
+    }
+    col.c1 { width: 120px; }
+    col.c2 { width: 220px; }
+    col.c3 { width: 110px; }
+    col.c4 { width: 220px; }
+    col.c5 { width: 220px; }
+    col.c6 { width: 320px; }
+    col.c7 { width: 140px; }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background: rgba(10,14,26,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      text-align: left;
+      padding: 12px 12px;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    tbody td {
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 12px 12px;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    tbody tr:hover { background: rgba(255,255,255,.04); }
+
+    /* Sticky first column: remove padding on the sticky cell itself to avoid width drift;
+       put padding inside .pad to keep exact column boundaries aligned with header */
+    th.sticky-first, td.sticky-first {
+      position: sticky;
+      left: 0;
+      padding: 0;              /* important */
+      background: rgba(255,255,255,.02);
+      backdrop-filter: blur(8px);
+      border-right: 1px solid rgba(255,255,255,.08);
+      z-index: 3;
+    }
+    th.sticky-first { z-index: 4; background: rgba(10,14,26,.92); }
+    .pad { padding: 12px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .school { font-weight: 650; color: var(--text); }
+    .sex { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+    .click-left { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 8px 10px; border-radius: 12px;
+      border: 1px solid rgba(125,211,252,.35);
+      background: rgba(125,211,252,.08);
+      color: var(--accent);
+      text-decoration: none; font-weight: 650; white-space: nowrap;
+    }
+    .btn:hover { background: rgba(125,211,252,.14); }
+    .muted { color: var(--muted); font-size: 12px; }
+
+    @media (max-width: 860px) {
+      thead th { position: static; }
+      th.sticky-first, td.sticky-first { position: static; border-right: none; padding: 12px 12px; }
+      .pad { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>26/27香港英中插班</h1>
+        <div class="sub">提示：每一行左侧（学校名）与右侧（按钮/链接）都可点击跳转外链；也可点击整行打开。</div>
+      </div>
+      <div class="toolbar">
+        <div class="search">
+          <span class="icon">🔎</span>
+          <input id="q" type="search" placeholder="搜索：区域 / 学校 / 申请日期 / 申请方式 / 入学考试..." />
+        </div>
+        <div class="pill"><span>共</span><span id="count">0</span><span>条</span></div>
+      </div>
+    </header>
+
+    <div class="table-card">
+      <div class="scroll">
+        <table>
+          <colgroup>
+            <col class="c1" /><col class="c2" /><col class="c3" /><col class="c4" />
+            <col class="c5" /><col class="c6" /><col class="c7" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="sticky-first"><div class="pad">区域（左）</div></th>
+              <th>学校（可点）</th>
+              <th>男/女校</th>
+              <th>申请日期</th>
+              <th>申请方式</th>
+              <th>入学考试</th>
+              <th>外链（右）</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<script>
+const DATA = [{"区域": "中西区", "学校": "圣嘉勒女书院", "男/女校": "女校", "申请日期": "即日起（中二至中四，视空缺）", "申请方式": "将申请文件邮寄到学校", "入学考试": "仅入选者会获通知参加考试和/或面试", "链接": "https://www.stclare.edu.hk/?page_id=2704"}, {"区域": "中西区", "学校": "圣类斯中学", "男/女校": "男校", "申请日期": "即日起至2026年6月30日（中二、中三）", "申请方式": "点击官网查询", "入学考试": "申请人或需参加入学考试及/或面试", "链接": "https://www.stlouis.edu.hk/en/transfer-student-admission"}, {"区域": "中西区", "学校": "圣士提反女子中学", "男/女校": "女校", "申请日期": "2026年3月30日-4月30日（下午4时截止）", "申请方式": "须亲身递交申请表及文件", "入学考试": "5月16日笔试（中英数），入围者参加英语及粤语面试", "链接": "https://www.ssgc.edu.hk/admissions.php?cid=2"}, {"区域": "湾仔区", "学校": "玛利曼中学", "男/女校": "女校", "申请日期": "即日起至2026年5月29日", "申请方式": "提交指定申请文件", "入学考试": "笔试（中英数）+7月面试；申中四另加选修科笔试", "链接": "https://www.mss.edu.hk/en/content.php?wid=40"}, {"区域": "湾仔区", "学校": "圣公会邓肇坚中学", "男/女校": "男女校", "申请日期": "即日起", "申请方式": "文件可亲身或邮寄提交", "入学考试": "入围者获邀面试", "链接": "https://www.tsk.edu.hk/f2-f4-admissions"}, {"区域": "湾仔区", "学校": "嘉诺撒圣方济各书院", "男/女校": "女校", "申请日期": "即日起至2026年5月2日", "申请方式": "申请表及文件亲身或邮寄递交", "入学考试": "5月16日笔试（中英数），入围者6月前中英文面试", "链接": "https://www.sfcc.edu.hk/template?series=26&article=536"}, {"区域": "湾仔区", "学校": "圣保禄中学", "男/女校": "女校", "申请日期": "2026年5月公布申请日期", "申请方式": "点击官网查询", "入学考试": "点击官网查询", "链接": "http://www.spss.edu.hk/admissions.php"}, {"区域": "湾仔区", "学校": "香港真光中学", "男/女校": "女校", "申请日期": "2026年4月可提交申请", "申请方式": "4月于校网公布详情", "入学考试": "5月下旬进行入学考试及面试", "链接": "https://www.tlmshk.edu.hk/academic/admission/"}, {"区域": "湾仔区", "学校": "香港华仁书院", "男/女校": "男校", "申请日期": "1月、5-6月可申请（每学期末或有空缺）", "申请方式": "请留意学校网站", "入学考试": "请留意学校网站", "链接": "http://wahyan.edu.hk/"}, {"区域": "东区", "学校": "嘉诺撒书院", "男/女校": "女校", "申请日期": "全年接受申请", "申请方式": "申请表及文件可电邮/邮寄/亲身递交", "入学考试": "广东话及英语面试（电邮通知）", "链接": "https://www.canossa.edu.hk/en/content.php?wid=152"}, {"区域": "东区", "学校": "张祝珊英文中学", "男/女校": "男女校", "申请日期": "2026年6月1日-6月12日", "申请方式": "申请表及文件亲身或邮寄递交", "入学考试": "6月20日核心科笔试；7月3日或以前粤语+英语面试", "链接": "https://www.ccsc.edu.hk/admissions.php?cid=121"}, {"区域": "东区", "学校": "筲箕湾官立中学", "男/女校": "男女校", "申请日期": "无指定报名日期", "申请方式": "申请表及文件亲身/电邮/邮寄递交", "入学考试": "电话通知入选者参加笔试（英文、数学）及面试（英语、粤语）", "链接": "https://www.sgss.edu.hk/%E5%AD%B8%E4%BD%8D%E7%94%B3%E8%AB%8B-application-school-places"}, {"区域": "东区", "学校": "圣马可中学", "男/女校": "男女校", "申请日期": "2026年4月下旬至5月初", "申请方式": "4月初公布", "入学考试": "4月初公布", "链接": "https://www.stmarks.edu.hk/web/en/site/view?name=Pre+F2-4+Admissions"}, {"区域": "南区", "学校": "嘉诺撒圣心书院", "男/女校": "女校", "申请日期": "即日起至2026年4月30日", "申请方式": "申请表及文件亲身或邮寄递交", "入学考试": "暂定5月9日笔试（中英数），6月中旬英语+粤语面试", "链接": "https://shcc.edu.hk/Admission/s2s4admissions2627/"}, {"区域": "九龙城区", "学校": "迦密中学", "男/女校": "男女校", "申请日期": "2026年5月1日-7月2日", "申请方式": "申请信及文件亲身或邮寄递交", "入学考试": "7月笔试（中英数），通过后面试", "链接": "https://www.carmelss.edu.hk/site/about-school/s1admission_eng/"}, {"区域": "九龙城区", "学校": "陈瑞祺（喇沙）书院", "男/女校": "男校", "申请日期": "即日起至2026年6月10日", "申请方式": "申请表及文件亲身或邮寄递交", "入学考试": "6月20日笔试（中英数），成绩优异者7月3日前面试", "链接": "https://www.csklsc.edu.hk/CP/pG/9/9/14"}, {"区域": "九龙城区", "学校": "九龙真光中学", "男/女校": "女校", "申请日期": "即日起至2026年6月30日", "申请方式": "仅接受网上申请", "入学考试": "笔试（3/21、4/30或7/7其中一场）；3-7月面试（笔试优异者）", "链接": "https://www.ktls.edu.hk/docs/application-guidelines-for-admission-into-s-2-to-s-4/"}, {"区域": "九龙城区", "学校": "喇沙书院", "男/女校": "男校", "申请日期": "无指定申请日期", "申请方式": "申请信+文件+联络资料邮寄校长", "入学考试": "有空缺时安排笔试（中英数）及校长面试", "链接": "https://www.lasalle.edu.hk/admissions/admission-to-form-2-5/"}, {"区域": "九龙城区", "学校": "玛利诺修院学校（中学部）", "男/女校": "女校", "申请日期": "即日起至2026年4月30日", "申请方式": "申请表及文件亲身递交", "入学考试": "5月16日入学试；面试分多轮（5/28-29、6/10-12、6月下旬）", "链接": "https://www.mcs.edu.hk/%E4%B8%AD%E4%BA%8C%E8%87%B3%E4%B8%AD%E5%9B%9B%E5%85%A5%E5%AD%B8%E7%94%B3%E8%AB%8B"}, {"区域": "观塘区", "学校": "观塘玛利诺书院", "男/女校": "男校", "申请日期": "2026年3月起至6月2日", "申请方式": "文件邮寄或亲身递交", "入学考试": "入围者最迟6月底获邀笔试及面试", "链接": "https://www.ktmc.edu.hk/application-f2-f4-vacant-places"}, {"区域": "观塘区", "学校": "圣言中学", "男/女校": "男校", "申请日期": "2026年5月18日-5月29日", "申请方式": "申请表及文件邮寄或亲身递交", "入学考试": "如有空缺，7月笔试（中英数）；通过后面试", "链接": "https://www.singyin.edu.hk/zh/%E5%85%A5%E5%AD%B8%E7%94%B3%E8%AB%8B/%E4%B8%AD%E4%BA%8C%E8%87%B3%E4%B8%AD%E4%BA%94"}, {"区域": "观塘区", "学校": "圣杰灵女子中学", "男/女校": "女校", "申请日期": "即日起至2026年7月8日", "申请方式": "申请表及文件电邮递交（按先后处理）", "入学考试": "入围者最迟7月中旬获邀笔试及面试", "链接": "https://www.scsg.edu.hk/en/subject/transfer-admission"}, {"区域": "黄大仙区", "学校": "保良局第一张永庆中学", "男/女校": "男女校", "申请日期": "2026年3月14日-4月4日", "申请方式": "请向学校查询", "入学考试": "5月9日（暂定）笔试；5月下旬首轮面试；另有第二轮面试（获邀者）", "链接": "https://www.plkno1.edu.hk/en/s2-s4-admission-2026-27"}, {"区域": "西贡区", "学校": "迦密主恩中学", "男/女校": "男女校", "申请日期": "有空缺即可申请（无固定窗口）", "申请方式": "申请信及文件邮寄或亲身递交", "入学考试": "合适申请人安排入学考试及个别面谈", "链接": "https://www.cdgfss.edu.hk/tc/content.php?wid=50"}, {"区域": "西贡区", "学校": "基督教宣道会宣基中学", "男/女校": "男女校", "申请日期": "全年接受申请（视空缺）", "申请方式": "申请表及文件邮寄/电邮/亲身递交", "入学考试": "初选者两周内电话通知笔试（中英数）；优异者再面试", "链接": "https://www.skss.edu.hk/zh/admission-zh/s1-5-admission-zh/"}, {"区域": "西贡区", "学校": "将军澳官立中学", "男/女校": "男女校", "申请日期": "2026年7月2日派表，7月15日截止", "申请方式": "点击官网查询", "入学考试": "电话通知入选者参加笔试及面试", "链接": "https://www.tkogss.edu.hk/en/node/2991"}, {"区域": "深水埗区", "学校": "长沙湾天主教英文中学", "男/女校": "男校", "申请日期": "无指定申请日期", "申请方式": "申请表及文件提交学校", "入学考试": "入围者获邀参加面试及笔试", "链接": "https://cswcss.edu.hk/%e5%85%a5%e5%ad%b8%e8%b3%87%e8%a8%8a"}, {"区域": "深水埗区", "学校": "香港四邑商工总会黄棣珊纪念中学", "男/女校": "男女校", "申请日期": "即日至2026年4月30日", "申请方式": "亲身/邮寄/网上递交申请表及文件", "入学考试": "6月6日入学考试；6月12日通知优异者，6月20日面试", "链接": "https://sites.google.com/wtsmc.edu.hk/admission/s2-s5-admission?authuser=0"}, {"区域": "油尖旺区", "学校": "九龙华仁书院", "男/女校": "男校", "申请日期": "全年接受申请", "申请方式": "申请表及文件亲身递交（按序审核）", "入学考试": "入围者参加12月或6月笔试和/或面试", "链接": "https://wyk.edu.hk/academic/admission/s2-s5-admissions/"}, {"区域": "北区", "学校": "香港道教联合会邓显纪念中学", "男/女校": "男女校", "申请日期": "2026年6月公布申请详情", "申请方式": "点击官网查询", "入学考试": "请留意学校公布", "链接": "https://www.tanghin.edu.hk/en/content.php?wid=93"}, {"区域": "北区", "学校": "圣公会陈融中学", "男/女校": "男女校", "申请日期": "无指定申请日期", "申请方式": "申请表及文件邮寄或电邮递交", "入学考试": "请向学校查询", "链接": "http://skhcyss.edu.hk/en/site/view?name=Admission+to+S.2-S.5"}, {"区域": "北区", "学校": "东华三院李嘉诚中学", "男/女校": "男女校", "申请日期": "即日起至2026年8月31日", "申请方式": "申请表及文件亲身递交", "入学考试": "笔试（中英数）+面试（学生英语/粤语，家长粤语）", "链接": "https://www.twghlkss.edu.hk/zh/admission/s-2-s-5-transfer-admission/"}, {"区域": "沙田区", "学校": "赛马会体艺中学", "男/女校": "男女校", "申请日期": "2026年3月2日-5月20日", "申请方式": "申请表及文件亲身/邮寄；视艺需作品集、体育需技能影片", "入学考试": "入围者或于6月参加技能测试及面试（家长或需面谈）", "链接": "https://www.tic.edu.hk/en/site/view?name=F2-4+Admission"}, {"区域": "沙田区", "学校": "沙田培英中学", "男/女校": "男女校", "申请日期": "2026年5月公布", "申请方式": "点击官网查询", "入学考试": "请留意学校公布", "链接": "https://www.pyc.edu.hk/admission"}, {"区域": "沙田区", "学校": "沙田崇真中学", "男/女校": "男女校", "申请日期": "每年4月公布", "申请方式": "点击官网查询", "入学考试": "请留意学校公布", "链接": "https://sttss.edu.hk/en/school/s234admission"}, {"区域": "大埔区", "学校": "迦密柏雨中学", "男/女校": "男女校", "申请日期": "2026年4月公布", "申请方式": "点击官网查询", "入学考试": "请留意学校公布", "链接": "https://www.cpu.edu.hk/en/site/view?name=F23ApplicationUpdate"}, {"区域": "大埔区", "学校": "圣公会莫寿增会督中学", "男/女校": "男女校", "申请日期": "9月入学：6月30日截止；1月入学：11月30日截止", "申请方式": "申请表及文件邮寄或亲身递交", "入学考试": "笔试（中英数）+校长/副校长面试（英语+粤语）；9月入学约7月考，1月入学约12月考", "链接": "https://www.mst.edu.hk/en/content.php?wid=77"}, {"区域": "葵青区", "学校": "顺德联谊总会李兆基中学", "男/女校": "男女校", "申请日期": "全年接受申请", "申请方式": "填电子申请表并上传文件", "入学考试": "入选者笔试及面试；5月30日前递交者可安排6月13日上午笔试", "链接": "https://www.lskc.edu.hk/en/content.php?wid=58"}, {"区域": "荃湾区", "学校": "荃湾公立何传耀纪念中学", "男/女校": "男女校", "申请日期": "基本全年；学期末窗口为2026年5月2日-5月31日", "申请方式": "申请表及文件亲身或邮寄递交", "入学考试": "笔试（中英数）；通过后与家长/监护人参加英粤面试", "链接": "https://www.twphcymc.edu.hk/CustomPage/99/Transfer_Student_Application__19062025_Eng.pdf"}, {"区域": "屯门区", "学校": "香港九龙塘基督教中华宣道会陈瑞芝纪念中学", "男/女校": "男女校", "申请日期": "预计2026年5月公布", "申请方式": "点击官网查询", "入学考试": "请留意学校公布", "链接": "https://www.scc.edu.hk/f2-f4-interim-admission"}, {"区域": "元朗区", "学校": "天主教崇德英文书院", "男/女校": "男女校", "申请日期": "每年4月中旬开放申请", "申请方式": "点击官网查询", "入学考试": "详情请向学校查询", "链接": "https://www.stc.edu.hk/admission/"}];
+
+function escapeHtml(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function rowMatches(row, q){
+  if(!q) return true;
+  const hay = [
+    row["区域"], row["学校"], row["男/女校"],
+    row["申请日期"], row["申请方式"], row["入学考试"]
+  ].join(" ").toLowerCase();
+  return hay.includes(q);
+}
+
+function openUrl(url) {
+  if(!url) return;
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function render(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+  const filtered = DATA.filter(r => rowMatches(r, q));
+  document.getElementById("count").textContent = String(filtered.length);
+
+  for(const r of filtered){
+    const tr = document.createElement("tr");
+    tr.dataset.url = r["链接"] || "";
+
+    tr.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if(a) return;
+      openUrl(tr.dataset.url);
+    });
+
+    tr.innerHTML = `
+      <td class="sticky-first">
+        <div class="pad click-left" title="点击打开外链">
+          <span style="opacity:.85">↗</span>
+          <span>${escapeHtml(r["区域"])}</span>
+        </div>
+      </td>
+      <td>
+        <div class="school click-left" title="点击打开外链">${escapeHtml(r["学校"])}</div>
+      </td>
+      <td><span class="sex">👥 ${escapeHtml(r["男/女校"])}</span></td>
+      <td>${escapeHtml(r["申请日期"])}</td>
+      <td>${escapeHtml(r["申请方式"])}</td>
+      <td>${escapeHtml(r["入学考试"])}</td>
+      <td>
+        ${r["链接"] ? `
+          <a class="btn" href="${escapeHtml(r["链接"])}" target="_blank" rel="noopener noreferrer">
+            点击进入 🔗
+          </a>
+        ` : `<span class="muted">无</span>`}
+      </td>
+    `;
+
+    tr.querySelectorAll(".click-left").forEach(el => {
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openUrl(tr.dataset.url);
+      });
+    });
+
+    tbody.appendChild(tr);
+  }
+}
+
+document.getElementById("q").addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
